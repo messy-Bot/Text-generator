@@ -1,5 +1,6 @@
 import importlib.util
 from pathlib import Path
+from text_generator import generate_styled_text
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
