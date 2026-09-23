@@ -1,8 +1,24 @@
-from text_generator import generate_styled_text
+import importlib.util
+from pathlib import Path
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+APP_FILE = PROJECT_ROOT / "text-generator.py"
+
+spec = importlib.util.spec_from_file_location(
+    "text_generator",
+    APP_FILE
+)
+
+text_generator = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(text_generator)
 
 
 def test_generate_styled_text():
-    result = generate_styled_text("Hello World", "Arial")
+    result = text_generator.generate_styled_text(
+        "Hello World",
+        "Arial"
+    )
 
     assert result["text"] == "Hello World"
     assert result["font"] == "Arial"
@@ -10,7 +26,10 @@ def test_generate_styled_text():
 
 
 def test_generate_styled_text_with_different_font():
-    result = generate_styled_text("Python", "Courier New")
+    result = text_generator.generate_styled_text(
+        "Python",
+        "Courier New"
+    )
 
     assert result["text"] == "Python"
     assert result["font"] == "Courier New"
@@ -18,7 +37,10 @@ def test_generate_styled_text_with_different_font():
 
 
 def test_empty_text():
-    result = generate_styled_text("", "Verdana")
+    result = text_generator.generate_styled_text(
+        "",
+        "Verdana"
+    )
 
     assert result["text"] == ""
     assert result["font"] == "Verdana"
